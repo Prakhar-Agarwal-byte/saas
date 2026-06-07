@@ -1,0 +1,851 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Preview and install the saas shadcn registry components."
+    />
+    <title>saas component catalog</title>
+    <style>
+      :root {
+        --background: #f8fafc;
+        --foreground: #0f172a;
+        --card: #ffffff;
+        --primary: #2563eb;
+        --primary-foreground: #ffffff;
+        --muted: #f1f5f9;
+        --muted-foreground: #64748b;
+        --accent: #eff6ff;
+        --accent-foreground: #1d4ed8;
+        --border: #e5e7eb;
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #e11d48;
+        --radius: 8px;
+        --shadow: 0 10px 24px color-mix(in srgb, #0f172a 7%, transparent);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        background: var(--background);
+        color: var(--foreground);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      button,
+      input,
+      select {
+        font: inherit;
+      }
+
+      .shell {
+        margin: 0 auto;
+        max-width: 1200px;
+        padding: 24px;
+      }
+
+      .topbar {
+        align-items: center;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        gap: 18px;
+        justify-content: space-between;
+        padding: 0 0 18px;
+      }
+
+      .brand {
+        align-items: center;
+        display: flex;
+        gap: 12px;
+        min-width: 0;
+      }
+
+      .mark {
+        align-items: center;
+        background: var(--primary);
+        border-radius: var(--radius);
+        color: var(--primary-foreground);
+        display: inline-flex;
+        font-size: 13px;
+        font-weight: 700;
+        height: 36px;
+        justify-content: center;
+        letter-spacing: 0;
+        width: 36px;
+      }
+
+      .brand h1 {
+        font-size: 17px;
+        line-height: 1.2;
+        margin: 0;
+      }
+
+      .brand p {
+        color: var(--muted-foreground);
+        font-size: 13px;
+        margin: 2px 0 0;
+      }
+
+      .actions {
+        align-items: center;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: flex-end;
+      }
+
+      .button {
+        align-items: center;
+        background: var(--primary);
+        border: 1px solid var(--primary);
+        border-radius: var(--radius);
+        color: var(--primary-foreground);
+        display: inline-flex;
+        font-size: 14px;
+        font-weight: 500;
+        gap: 8px;
+        height: 38px;
+        justify-content: center;
+        padding: 0 14px;
+        text-decoration: none;
+        white-space: nowrap;
+      }
+
+      .button.secondary {
+        background: var(--card);
+        border-color: var(--border);
+        color: var(--foreground);
+      }
+
+      .hero {
+        display: grid;
+        gap: 28px;
+        grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+        padding: 56px 0 34px;
+      }
+
+      .hero h2 {
+        font-size: clamp(38px, 6vw, 72px);
+        letter-spacing: 0;
+        line-height: 0.94;
+        margin: 0;
+        max-width: 780px;
+      }
+
+      .hero p {
+        color: var(--muted-foreground);
+        font-size: 17px;
+        line-height: 1.6;
+        margin: 20px 0 0;
+        max-width: 680px;
+      }
+
+      .install-card {
+        align-self: start;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 18px;
+      }
+
+      .install-card h3 {
+        font-size: 15px;
+        margin: 0 0 10px;
+      }
+
+      .code {
+        background: #0f172a;
+        border-radius: var(--radius);
+        color: #e2e8f0;
+        display: grid;
+        font-family:
+          "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+        font-size: 12px;
+        gap: 8px;
+        line-height: 1.5;
+        margin: 0;
+        overflow-wrap: anywhere;
+        overflow-x: auto;
+        padding: 14px;
+        white-space: pre-wrap;
+      }
+
+      .stats {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        margin: 6px 0 32px;
+      }
+
+      .stat {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 16px;
+      }
+
+      .stat strong {
+        display: block;
+        font-size: 26px;
+        line-height: 1;
+      }
+
+      .stat span {
+        color: var(--muted-foreground);
+        display: block;
+        font-size: 13px;
+        margin-top: 8px;
+      }
+
+      .section-title {
+        align-items: end;
+        display: flex;
+        gap: 16px;
+        justify-content: space-between;
+        margin: 36px 0 14px;
+      }
+
+      .section-title h2 {
+        font-size: 22px;
+        margin: 0;
+      }
+
+      .section-title p {
+        color: var(--muted-foreground);
+        font-size: 14px;
+        margin: 5px 0 0;
+      }
+
+      .preview-grid {
+        display: grid;
+        gap: 14px;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .preview {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        min-height: 210px;
+        padding: 18px;
+      }
+
+      .preview h3 {
+        font-size: 15px;
+        margin: 0 0 14px;
+      }
+
+      .preview-stack {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .row {
+        align-items: center;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .sample-button {
+        align-items: center;
+        border: 1px solid transparent;
+        border-radius: var(--radius);
+        display: inline-flex;
+        font-size: 14px;
+        font-weight: 500;
+        height: 38px;
+        justify-content: center;
+        padding: 0 14px;
+      }
+
+      .sample-button.primary {
+        background: var(--primary);
+        color: var(--primary-foreground);
+      }
+
+      .sample-button.outline {
+        background: var(--card);
+        border-color: var(--border);
+      }
+
+      .sample-button.ghost {
+        background: var(--muted);
+      }
+
+      .badge {
+        align-items: center;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        display: inline-flex;
+        font-size: 12px;
+        gap: 6px;
+        height: 26px;
+        padding: 0 10px;
+      }
+
+      .badge.primary {
+        background: var(--accent);
+        border-color: color-mix(in srgb, var(--primary) 20%, var(--border));
+        color: var(--accent-foreground);
+      }
+
+      .badge.success {
+        background: #ecfdf5;
+        border-color: #bbf7d0;
+        color: #047857;
+      }
+
+      .metric {
+        display: grid;
+        gap: 8px;
+      }
+
+      .metric strong {
+        font-size: 30px;
+      }
+
+      .metric span {
+        color: var(--muted-foreground);
+        font-size: 13px;
+      }
+
+      .bar {
+        background: var(--muted);
+        border-radius: 999px;
+        height: 8px;
+        overflow: hidden;
+      }
+
+      .bar span {
+        background: var(--primary);
+        display: block;
+        height: 100%;
+        width: 68%;
+      }
+
+      .field {
+        display: grid;
+        gap: 7px;
+      }
+
+      .field label {
+        font-size: 13px;
+        font-weight: 500;
+      }
+
+      .input {
+        background: var(--card);
+        border: 1px solid #cbd5e1;
+        border-radius: var(--radius);
+        height: 38px;
+        padding: 0 11px;
+      }
+
+      .table {
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        overflow: hidden;
+      }
+
+      .table-row {
+        display: grid;
+        font-size: 13px;
+        grid-template-columns: 1.2fr 0.8fr;
+      }
+
+      .table-row > span {
+        border-bottom: 1px solid var(--border);
+        padding: 10px;
+      }
+
+      .table-row:last-child > span {
+        border-bottom: 0;
+      }
+
+      .table-head {
+        background: var(--muted);
+        color: var(--muted-foreground);
+        font-size: 12px;
+      }
+
+      .toolbar {
+        align-items: center;
+        display: flex;
+        gap: 10px;
+        margin: 0 0 14px;
+      }
+
+      .search {
+        background: var(--card);
+        border: 1px solid #cbd5e1;
+        border-radius: var(--radius);
+        flex: 1;
+        height: 40px;
+        min-width: 220px;
+        padding: 0 12px;
+      }
+
+      .select {
+        background: var(--card);
+        border: 1px solid #cbd5e1;
+        border-radius: var(--radius);
+        height: 40px;
+        padding: 0 12px;
+      }
+
+      .catalog {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .item {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        min-height: 190px;
+        padding: 16px;
+      }
+
+      .item header {
+        align-items: start;
+        display: flex;
+        gap: 12px;
+        justify-content: space-between;
+      }
+
+      .item h3 {
+        font-size: 16px;
+        margin: 0;
+      }
+
+      .item p {
+        color: var(--muted-foreground);
+        font-size: 13px;
+        line-height: 1.5;
+        margin: 0;
+      }
+
+      .type {
+        background: var(--muted);
+        border-radius: 999px;
+        color: var(--muted-foreground);
+        flex: none;
+        font-size: 11px;
+        padding: 5px 8px;
+      }
+
+      .item-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: auto;
+      }
+
+      .small-action {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        color: var(--foreground);
+        cursor: pointer;
+        font-size: 12px;
+        height: 32px;
+        padding: 0 10px;
+        text-decoration: none;
+      }
+
+      .small-action.primary {
+        background: var(--primary);
+        border-color: var(--primary);
+        color: var(--primary-foreground);
+      }
+
+      .empty {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        color: var(--muted-foreground);
+        grid-column: 1 / -1;
+        padding: 24px;
+        text-align: center;
+      }
+
+      .footer {
+        border-top: 1px solid var(--border);
+        color: var(--muted-foreground);
+        font-size: 13px;
+        margin-top: 42px;
+        padding-top: 18px;
+      }
+
+      @media (max-width: 900px) {
+        .hero,
+        .preview-grid,
+        .catalog,
+        .stats {
+          grid-template-columns: 1fr;
+        }
+
+        .hero {
+          padding-top: 36px;
+        }
+
+        .topbar,
+        .section-title,
+        .toolbar {
+          align-items: stretch;
+          flex-direction: column;
+        }
+
+        .actions {
+          justify-content: flex-start;
+        }
+      }
+
+      @media (max-width: 520px) {
+        .shell {
+          padding: 16px;
+        }
+
+        .hero h2 {
+          font-size: 38px;
+        }
+
+        .install-card,
+        .preview,
+        .item,
+        .stat {
+          padding: 14px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <nav class="topbar" aria-label="Catalog navigation">
+        <div class="brand">
+          <span class="mark">saas</span>
+          <div>
+            <h1>saas component catalog</h1>
+            <p>shadcn-compatible components for B2B SaaS apps</p>
+          </div>
+        </div>
+        <div class="actions">
+          <a
+            class="button secondary"
+            href="https://github.com/Prakhar-Agarwal-byte/saas"
+            >GitHub</a
+          >
+          <a
+            class="button"
+            href="https://raw.githubusercontent.com/Prakhar-Agarwal-byte/saas/main/public/r/registry.json"
+            >Registry JSON</a
+          >
+        </div>
+      </nav>
+
+      <section class="hero">
+        <div>
+          <h2>Preview and install the saas registry.</h2>
+          <p>
+            Browse every registry item, copy shadcn add commands, and inspect
+            the blue and white component system before installing it into an
+            app.
+          </p>
+        </div>
+        <aside class="install-card">
+          <h3>Use this registry</h3>
+          <pre class="code"><code>pnpm dlx shadcn@latest registry add @saas=https://raw.githubusercontent.com/Prakhar-Agarwal-byte/saas/main/public/r/{name}.json
+pnpm dlx shadcn@latest add @saas/saas-kit</code></pre>
+        </aside>
+      </section>
+
+      <section class="stats" id="stats" aria-label="Registry summary"></section>
+
+      <section aria-labelledby="preview-title">
+        <div class="section-title">
+          <div>
+            <h2 id="preview-title">Component previews</h2>
+            <p>Representative samples using the same visual language.</p>
+          </div>
+        </div>
+        <div class="preview-grid">
+          <article class="preview">
+            <h3>Actions and status</h3>
+            <div class="preview-stack">
+              <div class="row">
+                <span class="sample-button primary">Start free beta</span>
+                <span class="sample-button outline">Export CSV</span>
+                <span class="sample-button ghost">Cancel</span>
+              </div>
+              <div class="row">
+                <span class="badge primary">Primary</span>
+                <span class="badge success">Synced</span>
+                <span class="badge">Draft</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="preview">
+            <h3>Metric card</h3>
+            <div class="metric">
+              <span>AI spend this month</span>
+              <strong>$4,821</strong>
+              <span>68% of monthly budget used</span>
+              <div class="bar" aria-hidden="true"><span></span></div>
+            </div>
+          </article>
+
+          <article class="preview">
+            <h3>Form controls</h3>
+            <div class="preview-stack">
+              <div class="field">
+                <label for="workspace">Workspace</label>
+                <input class="input" id="workspace" value="Agency operations" />
+              </div>
+              <div class="row">
+                <span class="sample-button primary">Save changes</span>
+                <span class="sample-button outline">Test connection</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="preview">
+            <h3>Data table</h3>
+            <div class="table">
+              <div class="table-row table-head">
+                <span>Workflow</span>
+                <span>Spend</span>
+              </div>
+              <div class="table-row">
+                <span>Lead enrichment</span>
+                <span>$812.40</span>
+              </div>
+              <div class="table-row">
+                <span>Ticket triage</span>
+                <span>$248.10</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="preview">
+            <h3>Empty state</h3>
+            <div class="preview-stack">
+              <span class="badge primary">No alerts</span>
+              <p style="color: var(--muted-foreground); font-size: 14px; line-height: 1.6; margin: 0">
+                Budget alerts will appear here after your first workflow sync.
+              </p>
+              <span class="sample-button outline">Configure budgets</span>
+            </div>
+          </article>
+
+          <article class="preview">
+            <h3>Install bundle</h3>
+            <pre class="code"><code>pnpm dlx shadcn@latest add @saas/saas-base
+pnpm dlx shadcn@latest add @saas/app-blocks</code></pre>
+          </article>
+        </div>
+      </section>
+
+      <section aria-labelledby="items-title">
+        <div class="section-title">
+          <div>
+            <h2 id="items-title">Registry items</h2>
+            <p id="item-count">Loading registry...</p>
+          </div>
+        </div>
+        <div class="toolbar">
+          <input
+            aria-label="Search registry items"
+            class="search"
+            id="search"
+            placeholder="Search components, blocks, helpers..."
+            type="search"
+          />
+          <select aria-label="Filter by item type" class="select" id="type-filter">
+            <option value="all">All types</option>
+          </select>
+        </div>
+        <div class="catalog" id="catalog"></div>
+      </section>
+
+      <footer class="footer">
+        <span>
+          Hosted from the public GitHub repository. shadcn MCP can use the same
+          registry URL configured in <code>components.json</code>.
+        </span>
+      </footer>
+    </main>
+
+    <script>
+      const registryUrl =
+        "https://raw.githubusercontent.com/Prakhar-Agarwal-byte/saas/main/public/r/registry.json";
+      const itemBaseUrl =
+        "https://raw.githubusercontent.com/Prakhar-Agarwal-byte/saas/main/public/r";
+
+      const state = {
+        items: [],
+        query: "",
+        type: "all",
+      };
+
+      const typeNames = {
+        "registry:base": "Base",
+        "registry:block": "Block",
+        "registry:component": "Component",
+        "registry:hook": "Hook",
+        "registry:lib": "Lib",
+        "registry:ui": "UI",
+      };
+
+      const statsEl = document.querySelector("#stats");
+      const catalogEl = document.querySelector("#catalog");
+      const itemCountEl = document.querySelector("#item-count");
+      const searchEl = document.querySelector("#search");
+      const typeFilterEl = document.querySelector("#type-filter");
+
+      searchEl.addEventListener("input", (event) => {
+        state.query = event.target.value.toLowerCase();
+        renderCatalog();
+      });
+
+      typeFilterEl.addEventListener("change", (event) => {
+        state.type = event.target.value;
+        renderCatalog();
+      });
+
+      loadRegistry();
+
+      async function loadRegistry() {
+        try {
+          const response = await fetch(registryUrl, { cache: "no-store" });
+          if (!response.ok) {
+            throw new Error("Registry request failed");
+          }
+          const registry = await response.json();
+          state.items = registry.items || [];
+          renderStats();
+          renderFilters();
+          renderCatalog();
+        } catch (error) {
+          catalogEl.innerHTML =
+            '<div class="empty">Could not load the hosted registry. Open the GitHub repository or try again.</div>';
+          itemCountEl.textContent = "Registry unavailable";
+        }
+      }
+
+      function renderStats() {
+        const groups = groupByType(state.items);
+        const stats = [
+          ["Items", state.items.length],
+          ["UI primitives", groups["registry:ui"] || 0],
+          ["Blocks", (groups["registry:block"] || 0) + (groups["registry:component"] || 0)],
+          ["Theme", groups["registry:base"] || 0],
+        ];
+
+        statsEl.innerHTML = stats
+          .map(
+            ([label, value]) => `
+              <article class="stat">
+                <strong>${value}</strong>
+                <span>${label}</span>
+              </article>
+            `
+          )
+          .join("");
+      }
+
+      function renderFilters() {
+        const types = [...new Set(state.items.map((item) => item.type))].sort();
+        typeFilterEl.innerHTML =
+          '<option value="all">All types</option>' +
+          types
+            .map((type) => `<option value="${type}">${typeNames[type] || type}</option>`)
+            .join("");
+      }
+
+      function renderCatalog() {
+        const filtered = state.items.filter((item) => {
+          const haystack = `${item.name} ${item.title || ""} ${item.description || ""}`.toLowerCase();
+          return (
+            (state.type === "all" || item.type === state.type) &&
+            haystack.includes(state.query)
+          );
+        });
+
+        itemCountEl.textContent = `${filtered.length} of ${state.items.length} items shown`;
+
+        if (!filtered.length) {
+          catalogEl.innerHTML = '<div class="empty">No registry items match the current filters.</div>';
+          return;
+        }
+
+        catalogEl.innerHTML = filtered
+          .map((item) => {
+            const command = `pnpm dlx shadcn@latest add @saas/${item.name}`;
+            return `
+              <article class="item">
+                <header>
+                  <div>
+                    <h3>${item.title || item.name}</h3>
+                    <p>${item.name}</p>
+                  </div>
+                  <span class="type">${typeNames[item.type] || item.type}</span>
+                </header>
+                <p>${item.description || "Installable saas registry item."}</p>
+                <div class="item-actions">
+                  <button class="small-action primary" data-copy="${escapeAttr(command)}">Copy add</button>
+                  <a class="small-action" href="${itemBaseUrl}/${item.name}.json">JSON</a>
+                </div>
+              </article>
+            `;
+          })
+          .join("");
+
+        catalogEl.querySelectorAll("[data-copy]").forEach((button) => {
+          button.addEventListener("click", async () => {
+            await navigator.clipboard.writeText(button.dataset.copy);
+            const old = button.textContent;
+            button.textContent = "Copied";
+            setTimeout(() => {
+              button.textContent = old;
+            }, 1100);
+          });
+        });
+      }
+
+      function groupByType(items) {
+        return items.reduce((acc, item) => {
+          acc[item.type] = (acc[item.type] || 0) + 1;
+          return acc;
+        }, {});
+      }
+
+      function escapeAttr(value) {
+        return value.replaceAll("&", "&amp;").replaceAll('"', "&quot;");
+      }
+    </script>
+  </body>
+</html>

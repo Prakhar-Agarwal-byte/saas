@@ -9,6 +9,12 @@ This repo supports two consumption modes:
 
 The registry mode is the preferred option when an app should own copied source files and keep using its own `components.json` aliases.
 
+Catalog preview:
+
+```txt
+https://prakhar-agarwal-byte.github.io/saas/
+```
+
 ## Contents
 
 - `src/components/ui` - shadcn/base-ui primitives.
@@ -17,6 +23,7 @@ The registry mode is the preferred option when an app should own copied source f
 - `registry/` - generated alias-safe registry source files.
 - `registry.json` - generated shadcn registry manifest.
 - `public/r/` - generated static JSON files to host as a shadcn registry.
+- `docs/` - static GitHub Pages component catalog.
 
 ## Package Usage
 
