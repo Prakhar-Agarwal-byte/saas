@@ -826,9 +826,17 @@ pnpm dlx shadcn@latest add @saas/app-blocks</code></pre>
 
         catalogEl.querySelectorAll("[data-copy]").forEach((button) => {
           button.addEventListener("click", async () => {
-            await navigator.clipboard.writeText(button.dataset.copy);
             const old = button.textContent;
             button.textContent = "Copied";
+            try {
+              if (navigator.clipboard && window.isSecureContext) {
+                await navigator.clipboard.writeText(button.dataset.copy);
+              } else {
+                fallbackCopy(button.dataset.copy);
+              }
+            } catch (_error) {
+              fallbackCopy(button.dataset.copy);
+            }
             setTimeout(() => {
               button.textContent = old;
             }, 1100);
@@ -845,6 +853,18 @@ pnpm dlx shadcn@latest add @saas/app-blocks</code></pre>
 
       function escapeAttr(value) {
         return value.replaceAll("&", "&amp;").replaceAll('"', "&quot;");
+      }
+
+      function fallbackCopy(value) {
+        const textarea = document.createElement("textarea");
+        textarea.value = value;
+        textarea.setAttribute("readonly", "");
+        textarea.style.position = "fixed";
+        textarea.style.left = "-9999px";
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        textarea.remove();
       }
     </script>
   </body>
