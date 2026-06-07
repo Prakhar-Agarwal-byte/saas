@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-mobile",
+  "title": "Use Mobile",
+  "description": "Responsive media-query hook used by navigation primitives.",
+  "files": [
+    {
+      "path": "registry/hooks/use-mobile.ts",
+      "content": "import * as React from \"react\"\n\nconst MOBILE_BREAKPOINT = 768\n\nexport function useIsMobile() {\n  const isMobile = React.useSyncExternalStore(\n    (callback) => {\n      const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`)\n      mql.addEventListener(\"change\", callback)\n      return () => mql.removeEventListener(\"change\", callback)\n    },\n    () => window.innerWidth < MOBILE_BREAKPOINT,\n    () => false\n  )\n\n  return isMobile\n}\n",
+      "type": "registry:hook",
+      "target": "@hooks/use-mobile.ts"
+    }
+  ],
+  "type": "registry:hook"
+}

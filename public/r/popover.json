@@ -1,0 +1,26 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "popover",
+  "title": "Popover",
+  "description": "Popover primitive for SaaS applications.",
+  "dependencies": [
+    "@base-ui/react",
+    "clsx",
+    "tailwind-merge"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/popover.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { Popover as PopoverPrimitive } from \"@base-ui/react/popover\"\n\nimport { cn } from \"@/lib/utils\"\n\nfunction Popover({ ...props }: PopoverPrimitive.Root.Props) {\n  return <PopoverPrimitive.Root data-slot=\"popover\" {...props} />\n}\n\nfunction PopoverTrigger({ ...props }: PopoverPrimitive.Trigger.Props) {\n  return <PopoverPrimitive.Trigger data-slot=\"popover-trigger\" {...props} />\n}\n\nfunction PopoverContent({\n  className,\n  sideOffset = 4,\n  align = \"center\",\n  ...props\n}: PopoverPrimitive.Popup.Props & {\n  align?: PopoverPrimitive.Positioner.Props[\"align\"]\n  sideOffset?: PopoverPrimitive.Positioner.Props[\"sideOffset\"]\n}) {\n  return (\n    <PopoverPrimitive.Portal>\n      <PopoverPrimitive.Positioner sideOffset={sideOffset} align={align}>\n        <PopoverPrimitive.Popup\n          data-slot=\"popover-content\"\n          className={cn(\n            \"z-50 w-auto rounded-lg border bg-popover p-4 text-popover-foreground shadow-md outline-none\",\n            \"data-[starting-style]:opacity-0 data-[ending-style]:opacity-0\",\n            \"transition-opacity duration-150\",\n            className\n          )}\n          {...props}\n        />\n      </PopoverPrimitive.Positioner>\n    </PopoverPrimitive.Portal>\n  )\n}\n\nexport { Popover, PopoverTrigger, PopoverContent }\n",
+      "type": "registry:ui",
+      "target": "@ui/popover.tsx"
+    },
+    {
+      "path": "registry/lib/utils.ts",
+      "content": "import { clsx, type ClassValue } from \"clsx\"\nimport { twMerge } from \"tailwind-merge\"\n\nexport function cn(...inputs: ClassValue[]) {\n  return twMerge(clsx(inputs))\n}\n",
+      "type": "registry:lib",
+      "target": "@lib/utils.ts"
+    }
+  ],
+  "type": "registry:ui"
+}

@@ -1,0 +1,27 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "calendar",
+  "title": "Calendar",
+  "description": "Calendar primitive for SaaS applications.",
+  "dependencies": [
+    "clsx",
+    "lucide-react",
+    "react-day-picker",
+    "tailwind-merge"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/calendar.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { ChevronLeft, ChevronRight } from \"lucide-react\"\nimport { DayPicker, useDayPicker } from \"react-day-picker\"\n\nimport { cn } from \"@/lib/utils\"\n\nexport type CalendarProps = React.ComponentProps<typeof DayPicker>\n\n/**\n * shadcn-style wrapper around react-day-picker v10. Modifiers like `selected`,\n * `range_start`, `range_middle`, `range_end` are added to the day button as CSS\n * classes via the `classNames` prop — NOT as `data-*` attributes — so we style\n * them by class name.\n */\nfunction Calendar({\n  className,\n  classNames,\n  showOutsideDays = true,\n  ...props\n}: CalendarProps) {\n  return (\n    <DayPicker\n      showOutsideDays={showOutsideDays}\n      className={cn(\"p-3\", className)}\n      classNames={{\n        months: \"flex flex-col sm:flex-row gap-4\",\n        month: \"flex flex-col gap-3\",\n        // Hide the library's built-in nav — we render arrows inside each\n        // MonthCaption instead so the left/right buttons sit symmetrically next\n        // to their respective month captions.\n        nav: \"hidden\",\n        month_caption: \"h-9\",\n        caption_label: \"text-sm font-medium\",\n        month_grid: \"w-full border-collapse\",\n        weekdays: \"flex\",\n        weekday:\n          \"text-muted-foreground rounded-md w-8 font-normal text-[0.75rem]\",\n        week: \"flex w-full mt-1\",\n        day: \"relative size-8 p-0 text-center text-sm focus-within:relative focus-within:z-20\",\n        day_button:\n          \"size-8 inline-flex items-center justify-center rounded-md font-normal hover:bg-muted/60 hover:text-foreground\",\n        selected: \"bg-accent text-foreground\",\n        range_start:\n          \"[&>button]:bg-primary [&>button]:text-primary-foreground [&>button]:hover:bg-primary/90 rounded-l-md\",\n        range_end:\n          \"[&>button]:bg-primary [&>button]:text-primary-foreground [&>button]:hover:bg-primary/90 rounded-r-md\",\n        range_middle: \"rounded-none\",\n        today: \"[&>button]:ring-1 [&>button]:ring-ring/30 [&>button]:ring-inset\",\n        outside: \"text-muted-foreground/50\",\n        disabled: \"text-muted-foreground/40 [&>button]:cursor-not-allowed\",\n        hidden: \"invisible\",\n        ...classNames,\n      }}\n      components={{\n        MonthCaption: SymmetricMonthCaption,\n      }}\n      {...props}\n    />\n  )\n}\n\n/**\n * Renders the month caption with a navigation arrow on the side that \"owns\"\n * navigation: prev arrow on the first month, next arrow on the last. Middle\n * months (if any) just render the label.\n */\nfunction SymmetricMonthCaption({\n  calendarMonth,\n  displayIndex,\n}: {\n  calendarMonth: { date: Date }\n  displayIndex: number\n}) {\n  const { months, goToMonth, previousMonth, nextMonth } = useDayPicker()\n  const isFirst = displayIndex === 0\n  const isLast = displayIndex === months.length - 1\n  const label = calendarMonth.date.toLocaleDateString(undefined, {\n    month: \"long\",\n    year: \"numeric\",\n  })\n\n  return (\n    <div className=\"flex h-9 items-center justify-between gap-2\">\n      {isFirst ? (\n        <NavButton\n          aria-label=\"Go to previous month\"\n          disabled={!previousMonth}\n          onClick={() => previousMonth && goToMonth(previousMonth)}\n        >\n          <ChevronLeft className=\"size-4\" />\n        </NavButton>\n      ) : (\n        <span aria-hidden className=\"size-7\" />\n      )}\n      <span className=\"text-sm font-medium\">{label}</span>\n      {isLast ? (\n        <NavButton\n          aria-label=\"Go to next month\"\n          disabled={!nextMonth}\n          onClick={() => nextMonth && goToMonth(nextMonth)}\n        >\n          <ChevronRight className=\"size-4\" />\n        </NavButton>\n      ) : (\n        <span aria-hidden className=\"size-7\" />\n      )}\n    </div>\n  )\n}\n\nfunction NavButton({\n  children,\n  className,\n  ...props\n}: React.ButtonHTMLAttributes<HTMLButtonElement>) {\n  return (\n    <button\n      type=\"button\"\n      className={cn(\n        \"inline-flex size-7 items-center justify-center rounded-md border bg-transparent text-muted-foreground transition hover:bg-muted/60 hover:text-foreground disabled:cursor-not-allowed disabled:opacity-40\",\n        className\n      )}\n      {...props}\n    >\n      {children}\n    </button>\n  )\n}\n\nexport { Calendar }\n",
+      "type": "registry:ui",
+      "target": "@ui/calendar.tsx"
+    },
+    {
+      "path": "registry/lib/utils.ts",
+      "content": "import { clsx, type ClassValue } from \"clsx\"\nimport { twMerge } from \"tailwind-merge\"\n\nexport function cn(...inputs: ClassValue[]) {\n  return twMerge(clsx(inputs))\n}\n",
+      "type": "registry:lib",
+      "target": "@lib/utils.ts"
+    }
+  ],
+  "type": "registry:ui"
+}

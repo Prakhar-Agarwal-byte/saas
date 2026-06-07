@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "card-frame",
+  "title": "Card Frame",
+  "description": "Shared card frame class for quiet B2B dashboard surfaces.",
+  "files": [
+    {
+      "path": "registry/lib/card-frame.ts",
+      "content": "export const CARD_FRAME = \"rounded-lg border bg-card shadow-none\";\n",
+      "type": "registry:lib",
+      "target": "@lib/card-frame.ts"
+    }
+  ],
+  "type": "registry:lib"
+}
